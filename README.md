@@ -1,89 +1,183 @@
-# SecureScan AI
+# 🛡️ SecureScan AI
 
-**Intelligent Website Security Assessment Platform**
+### Intelligent Website Security Assessment Platform
 
-SecureScan AI helps teams assess website security through SSL/TLS analysis, security headers, certificate chain validation, scoring, AI recommendations, PDF reports, and domain monitoring.
-
-> **Phase 5** — Admin dashboard, analytics, audit logs, RBAC, rate limiting, CSV exports.
+SecureScan AI is a full-stack cybersecurity platform that analyzes website security posture through SSL/TLS inspection, security header analysis, certificate validation, risk scoring, AI-powered recommendations, PDF reporting, and continuous domain monitoring.
 
 ---
 
-## Tech Stack
+## 🚀 Features
 
-| Layer | Technologies |
-|-------|----------------|
-| **Frontend** | React (JSX), Vite, Tailwind CSS, Shadcn/UI, Framer Motion, Axios, React Router, Recharts |
-| **Backend** | Python Flask, Flask-JWT-Extended, Flask-Bcrypt, Flask-CORS, SQLAlchemy, Flask-Migrate |
-| **Database** | MySQL |
-| **Auth (Phase 1+)** | JWT + bcrypt |
+### Security Analysis
+
+* SSL Certificate Validation
+* TLS Version Analysis
+* Certificate Chain Verification
+* Security Header Inspection
+* Risk Assessment & Scoring
+
+### AI Security Auditor
+
+* Automated Security Findings
+* Risk Classification
+* Remediation Recommendations
+
+### Reporting
+
+* Professional PDF Security Reports
+* Security Score Dashboard
+* Historical Scan Tracking
+
+### Monitoring
+
+* Domain Monitoring
+* SSL Expiry Alerts
+* Security Change Detection
+* Notification Center
+
+### Administration
+
+* JWT Authentication
+* Role-Based Access Control (RBAC)
+* Admin Dashboard
+* Audit Logs
+* Analytics & Insights
 
 ---
 
-## Folder Structure
+## 📸 Screenshots
+
+### Landing Page
+
+![Landing Page](docs/screenshots/landing-page.png)
+
+### Security Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Scan Results
+
+![Scan Results](docs/screenshots/scan-results.png)
+
+### PDF Report
+
+![PDF Report](docs/screenshots/pdf-report.png)
+
+---
+
+## 🏗️ System Architecture
 
 ```text
-Secure_scan/
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/       # Navbar, Sidebar, Footer, Shadcn UI
-│   │   ├── pages/
-│   │   │   ├── Landing/
-│   │   │   ├── Auth/
-│   │   │   ├── Dashboard/
-│   │   │   └── Admin/
-│   │   ├── layouts/
-│   │   ├── routes/
-│   │   ├── services/         # Axios API client
-│   │   ├── context/          # Theme (dark/light)
-│   │   ├── hooks/
-│   │   ├── utils/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── package.json
-│   ├── vite.config.js
-│   └── tailwind.config.js
-│
-├── backend/
-│   ├── app/
-│   │   ├── config/
-│   │   ├── models/
-│   │   ├── routes/           # auth, scan, report, admin, health
-│   │   ├── services/
-│   │   ├── middleware/
-│   │   ├── utils/
-│   │   └── __init__.py       # App factory
-│   ├── migrations/           # Alembic
-│   ├── app.py                # Run: python app.py
-│   ├── wsgi.py               # Gunicorn / Docker
-│   └── requirements.txt
-│
-├── docker-compose.yml        # Optional: MySQL, Redis, full stack
-└── README.md
+React Frontend
+       │
+       ▼
+ Flask REST API
+       │
+       ▼
+    MySQL
+       │
+       ▼
+ Security Engine
+       │
+ ┌─────┼─────┐
+ │     │     │
+ ▼     ▼     ▼
+SSL   TLS  Headers
+       │
+       ▼
+ AI Auditor
+       │
+       ▼
+ PDF Reports
 ```
 
 ---
 
-## Prerequisites
+## 🛠️ Tech Stack
 
-- **Node.js** 20+
-- **Python** 3.11+
-- **MySQL** 8+ (optional for Phase 0 health check; required for DB migrations)
+### Frontend
+
+* React.js
+* Vite
+* Tailwind CSS
+* Shadcn/UI
+* Framer Motion
+* Axios
+* Recharts
+
+### Backend
+
+* Flask
+* SQLAlchemy
+* Flask-JWT-Extended
+* Flask-Bcrypt
+* Flask-CORS
+
+### Database
+
+* MySQL
+
+### Security
+
+* SSL
+* Socket
+* Cryptography
+* Requests
 
 ---
 
-## Installation
+## ✨ Key Modules
 
-### 1. Clone and configure environment
+| Module          | Description                              |
+| --------------- | ---------------------------------------- |
+| Authentication  | JWT-based user authentication            |
+| SSL Scanner     | Certificate validation & expiry analysis |
+| TLS Analyzer    | Protocol and cipher inspection           |
+| Header Scanner  | Security header verification             |
+| AI Auditor      | Risk analysis & recommendations          |
+| Monitoring      | Continuous domain monitoring             |
+| Reporting       | Professional PDF generation              |
+| Admin Dashboard | User management & analytics              |
+
+---
+
+## 📊 Security Score Calculation
+
+| Security Control           | Points |
+| -------------------------- | ------ |
+| Valid SSL Certificate      | +30    |
+| TLS 1.3 Enabled            | +20    |
+| TLS 1.2 Enabled            | +10    |
+| Security Headers           | +30    |
+| Certificate Valid >30 Days | +10    |
+
+Total Score: **100**
+
+---
+
+## ⚙️ Installation
+
+### Backend
 
 ```bash
-cd Secure_scan
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python app.py
 ```
 
-Edit `backend/.env`:
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## 🔐 Environment Variables
 
 ```env
 MYSQL_HOST=localhost
@@ -91,154 +185,29 @@ MYSQL_PORT=3306
 MYSQL_USER=root
 MYSQL_PASSWORD=password
 MYSQL_DB=securescan
-JWT_SECRET_KEY=change_me
-```
 
-Create the database:
-
-```sql
-CREATE DATABASE securescan CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-### 2. Backend
-
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-
-export FLASK_APP=app:create_app    # for migrations
-flask db upgrade                   # optional if MySQL is running
-```
-
-### 3. Frontend
-
-```bash
-cd frontend
-npm install
+JWT_SECRET_KEY=your_secret_key
 ```
 
 ---
 
-## Running the Application
+## 🎯 Future Enhancements
 
-### Backend
-
-```bash
-cd backend
-source .venv/bin/activate
-python app.py
-```
-
-API: http://localhost:5000  
-Health: http://localhost:5000/api/health
-
-```json
-{
-  "status": "healthy",
-  "service": "SecureScan AI"
-}
-```
-
-### Frontend
-
-```bash
-cd frontend
-npm run dev
-```
-
-App: http://localhost:5173
-
-The landing page calls `/api/health` (proxied to the backend in dev).
+* Docker Deployment
+* CI/CD Pipeline
+* Team Workspaces
+* Webhook Integrations
+* API Keys
+* Historical Trend Analysis
 
 ---
 
-## Environment Variables
+## 👨‍💻 Author
 
-### Backend (`backend/.env`)
+**Manojkrishna M**
 
-| Variable | Description |
-|----------|-------------|
-| `MYSQL_HOST` | MySQL host |
-| `MYSQL_PORT` | MySQL port (default `3306`) |
-| `MYSQL_USER` | Database user |
-| `MYSQL_PASSWORD` | Database password |
-| `MYSQL_DB` | Database name |
-| `JWT_SECRET_KEY` | JWT signing key (Phase 1+) |
-| `SECRET_KEY` | Flask session secret |
-| `CORS_ORIGINS` | Allowed frontend origins |
+B.Tech Artificial Intelligence & Data Science
 
-### Frontend (`frontend/.env`)
+GitHub: https://github.com/yourusername
 
-| Variable | Description |
-|----------|-------------|
-| `VITE_API_BASE_URL` | Backend URL (default `http://localhost:5000`) |
-
----
-
-## API Routes
-
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| GET | `/api/health` | No | Health check |
-| POST | `/api/auth/register` | No | Register user |
-| POST | `/api/auth/login` | No | Login, returns JWT |
-| GET | `/api/auth/me` | Yes | Current user |
-| PUT | `/api/auth/profile` | Yes | Update full name |
-| PUT | `/api/auth/change-password` | Yes | Change password |
-| POST | `/api/auth/logout` | Yes | Revoke JWT (blocklist) |
-| GET | `/api/admin/admin-only` | Admin | Admin-only sample route |
-| POST | `/api/scans` | Yes | Run security scan |
-| GET | `/api/scans` | Yes | Scan history |
-| GET | `/api/scans/:id` | Yes | Scan detail |
-| DELETE | `/api/scans/:id` | Yes | Delete scan |
-| GET | `/api/reports/` | — | Placeholder (Phase 5) |
-
-See [docs/PHASE1_TESTING.md](docs/PHASE1_TESTING.md) for curl examples and UI walkthrough.
-
----
-
-## Frontend Routes
-
-| Path | Page |
-|------|------|
-| `/` | Landing |
-| `/login` | Login (placeholder) |
-| `/register` | Register (placeholder) |
-| `/dashboard` | Dashboard |
-| `/scan/:id` | Scan details |
-| `/reports` | Reports |
-| `/settings` | Settings |
-| `/admin` | Admin dashboard |
-
----
-
-## Docker (optional)
-
-```bash
-cp .env.example .env
-docker compose up --build
-```
-
----
-
-## Development Roadmap
-
-| Phase | Focus |
-|-------|--------|
-| 0 | Foundation (current) |
-| 1 | JWT authentication |
-| 2 | SSL/TLS scan engine |
-| 3 | Scan UX |
-| 4 | AI recommendations |
-| 5 | PDF reports |
-| 6 | Domain monitoring |
-| 7 | Admin dashboard |
-| 8 | Production hardening |
-
----
-
-## License
-
-Proprietary — SecureScan AI. All rights reserved.
+LinkedIn: https://linkedin.com/in/yourprofile
