@@ -209,6 +209,6 @@ JWT_SECRET_KEY=your_secret_key
 
 B.Tech Artificial Intelligence & Data Science
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/Manojkrishna27
 
-LinkedIn: https://linkedin.com/in/yourprofile
+LinkedIn: https://www.linkedin.com/in/manoj-krishna-m/
