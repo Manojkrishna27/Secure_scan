@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 96%;
+    --card: 222 44% 8%;
+    --card-foreground: 210 40% 96%;
+    --primary: 187 78% 48%;
+    --primary-foreground: 222 47% 8%;
+    --secondary: 217 28% 14%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 217 28% 14%;
+    --muted-foreground: 215 16% 58%;
+    --accent: 217 28% 16%;
+    --accent-foreground: 210 40% 96%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 24% 16%;
+    --input: 217 24% 16%;
+    --ring: 187 78% 48%;
+    --radius: 0.5rem;
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  .saas-card {
+    @apply rounded-lg border border-border/80 bg-card/80 shadow-sm transition-shadow hover:shadow-md;
+  }
+
+  .saas-stat-card {
+    @apply saas-card relative overflow-hidden;
+  }
+
+  .saas-stat-card::before {
+    content: "";
+    @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent;
+  }
+
+  .saas-table-wrap {
+    @apply -mx-1 overflow-x-auto;
+  }
+
+  .saas-table {
+    @apply w-full min-w-[640px] text-sm;
+  }
+
+  .saas-table thead tr {
+    @apply border-b border-border text-left text-muted-foreground;
+  }
+
+  .saas-table th {
+    @apply pb-3 pr-4 font-medium;
+  }
+
+  .saas-table tbody tr {
+    @apply border-b border-border/50 transition-colors hover:bg-accent/30;
+  }
+
+  .saas-table td {
+    @apply py-3.5 pr-4 align-middle;
+  }
+
+  .saas-input {
+    @apply flex h-11 w-full rounded-md border border-input bg-background/80 px-3 text-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+  }
+
+  .saas-nav-active {
+    @apply border-l-2 border-primary bg-primary/10 text-primary;
+  }
+}

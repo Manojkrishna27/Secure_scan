@@ -1,0 +1,17 @@
+.git
+.gitignore
+**/.venv
+**/venv
+**/node_modules
+**/dist
+**/__pycache__
+**/.pytest_cache
+.env
+.env.local
+backend/.env
+frontend/.env
+backend/storage/reports/**/*.pdf
+*.md
+docs/
+agent-transcripts/
+.cursor/
