@@ -49,7 +49,7 @@ SecureScan AI is a full-stack cybersecurity platform that analyzes website secur
 
 ### Landing Page
 
-![Landing Page](docs/screenshots/landing-page.png)
+![Landing Page](docs/screenshot/Landing.png)
 
 ### Security Dashboard
 
