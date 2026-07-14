@@ -45,3 +45,6 @@ mysql_data/
 backend/uploads/
 backend/storage/reports/**/*.pdf
 !backend/storage/reports/.gitkeep
+
+# Docker env template — keep placeholder values only, never real secrets
+# .env.docker
