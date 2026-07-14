@@ -32,8 +32,12 @@ export async function deleteReport(reportId) {
   return unwrapApiData(response);
 }
 
+/**
+ * Save the PDF blob as a file download.
+ * Uses the blob directly — do NOT wrap in new Blob([blob]) or it corrupts.
+ */
 export function savePdfBlob(blob, filename) {
-  const url = window.URL.createObjectURL(new Blob([blob]));
+  const url = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
   link.setAttribute("download", filename);
@@ -41,4 +45,14 @@ export function savePdfBlob(blob, filename) {
   link.click();
   link.remove();
   window.URL.revokeObjectURL(url);
+}
+
+/**
+ * Open the PDF blob in a new browser tab for inline viewing.
+ */
+export function openPdfBlob(blob) {
+  const url = window.URL.createObjectURL(blob);
+  window.open(url, "_blank", "noopener,noreferrer");
+  // Revoke after a short delay so the tab has time to read it
+  setTimeout(() => window.URL.revokeObjectURL(url), 10000);
 }

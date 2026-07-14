@@ -17,6 +17,7 @@ import {
   deleteReport,
   downloadReport,
   getReports,
+  openPdfBlob,
   savePdfBlob,
 } from "@/services/reportService";
 import { getApiMessage } from "@/services/api";
@@ -50,6 +51,18 @@ export default function ReportsPage() {
       savePdfBlob(response.data, report.report_name || "securescan-report.pdf");
     } catch (err) {
       alert(getApiMessage(err, "Download failed."));
+    } finally {
+      setDownloadingId(null);
+    }
+  };
+
+  const handleView = async (report) => {
+    setDownloadingId(report.id);
+    try {
+      const response = await downloadReport(report.id);
+      openPdfBlob(response.data);
+    } catch (err) {
+      alert(getApiMessage(err, "Failed to open PDF."));
     } finally {
       setDownloadingId(null);
     }
@@ -135,16 +148,25 @@ export default function ReportsPage() {
                           </Button>
                         )}
                         <Button
+                          variant="default"
+                          size="sm"
+                          disabled={downloadingId === report.id}
+                          onClick={() => handleView(report)}
+                        >
+                          {downloadingId === report.id ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : (
+                            <Eye className="h-3 w-3" />
+                          )}
+                          View PDF
+                        </Button>
+                        <Button
                           variant="outline"
                           size="sm"
                           disabled={downloadingId === report.id}
                           onClick={() => handleDownload(report)}
                         >
-                          {downloadingId === report.id ? (
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                          ) : (
-                            <Download className="h-3 w-3" />
-                          )}
+                          <Download className="h-3 w-3" />
                           Download
                         </Button>
                         <Button

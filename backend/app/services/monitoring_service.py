@@ -1,5 +1,8 @@
 """Domain monitoring, change detection, and alerts."""
+import os
 from datetime import datetime
+
+from flask import current_app
 
 from app.extensions import db
 from app.models import MonitoringDomain, MonitoringHistory, Notification
@@ -94,7 +97,13 @@ class MonitoringService:
             "security_headers": record.last_security_headers or {},
         }
 
-        scan, payload = run_scan_and_save(record.user_id, url, commit=False)
+        # Resolve API key: from Flask app context when available, then env
+        try:
+            api_key = current_app.config.get("GEMINI_API_KEY", "")
+        except RuntimeError:
+            api_key = os.getenv("GEMINI_API_KEY", "")
+
+        scan, payload = run_scan_and_save(record.user_id, url, commit=False, api_key=api_key)
 
         notifications_created = self._compare_and_notify(
             record, previous, payload

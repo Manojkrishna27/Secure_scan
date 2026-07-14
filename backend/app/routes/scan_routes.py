@@ -1,5 +1,5 @@
 """Security scan routes."""
-from flask import Blueprint, request
+from flask import Blueprint, current_app, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from app.extensions import db, limiter
@@ -27,7 +27,8 @@ def start_scan():
         return api_error("URL is required", 400)
 
     try:
-        scan, _ = run_scan_and_save(_current_user_id(), url)
+        api_key = current_app.config.get("GEMINI_API_KEY", "")
+        scan, _ = run_scan_and_save(_current_user_id(), url, api_key=api_key)
         scan_log.info("Scan completed user_id=%s scan_id=%s", _current_user_id(), scan.id)
     except ValueError as exc:
         scan_log.warning("Scan validation failed: %s", exc)

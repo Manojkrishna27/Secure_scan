@@ -63,6 +63,9 @@ class Config:
     RATELIMIT_STORAGE_URI = os.getenv("REDIS_URL", "memory://")
     RATELIMIT_ENABLED = True
 
+    # Gemini AI integration
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+
 
 class DevelopmentConfig(Config):
     DEBUG = True

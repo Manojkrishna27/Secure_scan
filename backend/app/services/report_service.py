@@ -11,14 +11,15 @@ from app.services.pdf_generator import PDFGenerator
 
 
 def ensure_ai_audit(scan: ScanResult) -> dict:
-    """Run AI auditor if not already stored on scan."""
+    """Run AI auditor (Gemini or rule-based fallback) if not already stored on scan."""
     if scan.ai_summary and scan.ai_recommendations:
         return {
             "security_summary": scan.ai_summary,
             "risk_assessment": scan.ai_risk_assessment or {},
             "recommendations": scan.ai_recommendations or [],
         }
-    ai = AIAuditor().analyze(scan.to_detail())
+    api_key = current_app.config.get("GEMINI_API_KEY", "")
+    ai = AIAuditor(api_key=api_key).analyze(scan.to_detail())
     scan.apply_ai_audit(ai)
     db.session.commit()
     return ai

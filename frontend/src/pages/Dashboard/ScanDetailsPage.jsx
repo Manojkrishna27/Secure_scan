@@ -24,6 +24,7 @@ import {
 import {
   downloadReport,
   generateReport,
+  openPdfBlob,
   savePdfBlob,
 } from "@/services/reportService";
 import { useToast } from "@/context/ToastContext";
@@ -112,14 +113,14 @@ export default function ScanDetailsPage() {
     setPdfError(false);
     try {
       const { report } = await generateReport(id);
-      setPdfMessage("PDF report generated successfully.");
+      setPdfMessage("PDF generated — opening in new tab.");
       toast.success("PDF report generated.");
       const updated = await getScanById(id);
       setScan(updated);
       if (report) {
         setPdfDownloadingId(report.id);
         const response = await downloadReport(report.id);
-        savePdfBlob(response.data, report.report_name);
+        openPdfBlob(response.data);
       }
     } catch (err) {
       const msg = getApiMessage(err, "Failed to generate report. Please try again.");
@@ -142,6 +143,24 @@ export default function ScanDetailsPage() {
       toast.success("Download started.");
     } catch (err) {
       const msg = getApiMessage(err, "Download failed. Please try again.");
+      setPdfMessage(msg);
+      setPdfError(true);
+      toast.error(msg);
+    } finally {
+      setPdfDownloadingId(null);
+    }
+  };
+
+  const handleViewExisting = async (reportId) => {
+    setPdfDownloadingId(reportId);
+    setPdfMessage("");
+    setPdfError(false);
+    try {
+      const response = await downloadReport(reportId);
+      openPdfBlob(response.data);
+      toast.success("Opening PDF in new tab.");
+    } catch (err) {
+      const msg = getApiMessage(err, "Failed to open PDF. Please try again.");
       setPdfMessage(msg);
       setPdfError(true);
       toast.error(msg);
@@ -181,26 +200,41 @@ export default function ScanDetailsPage() {
         </p>
       )}
       {(scan.reports || []).length > 0 && (
-        <Card>
+        <Card className="saas-card">
           <CardHeader>
-            <CardTitle className="text-base">Download report</CardTitle>
+            <CardTitle className="text-base">Generated reports</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
+          <CardContent className="space-y-2">
             {scan.reports.map((r) => (
-              <Button
-                key={r.id}
-                variant="outline"
-                size="sm"
-                disabled={pdfDownloadingId === r.id}
-                onClick={() => handleDownloadExisting(r.id, r.report_name)}
-              >
-                {pdfDownloadingId === r.id ? (
-                  <Loader2 className="h-3 w-3 animate-spin" />
-                ) : (
-                  <Download className="h-3 w-3" />
-                )}
-                {r.report_name}
-              </Button>
+              <div key={r.id} className="flex items-center justify-between gap-3 rounded-lg border border-border/60 bg-muted/20 px-3 py-2">
+                <span className="text-sm truncate max-w-xs font-medium" title={r.report_name}>
+                  {r.report_name}
+                </span>
+                <div className="flex gap-2 shrink-0">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    disabled={pdfDownloadingId === r.id}
+                    onClick={() => handleViewExisting(r.id)}
+                  >
+                    {pdfDownloadingId === r.id ? (
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                    ) : (
+                      <FileText className="h-3 w-3" />
+                    )}
+                    View PDF
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={pdfDownloadingId === r.id}
+                    onClick={() => handleDownloadExisting(r.id, r.report_name)}
+                  >
+                    <Download className="h-3 w-3" />
+                    Download
+                  </Button>
+                </div>
+              </div>
             ))}
           </CardContent>
         </Card>
